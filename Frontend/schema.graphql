@@ -1,0 +1,35 @@
+type Task {
+  id: Int!
+  title: String!
+  description: String
+  status: TaskStatus!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum TaskStatus {
+  PENDING
+  COMPLETED
+}
+
+input TaskInput {
+  title: String!
+  description: String
+}
+
+type Query {
+  getAllTasks: [Task!]!
+  getTaskById(id: Int!): Task
+}
+
+type Mutation {
+  createTask(input: TaskInput!): Task!
+  updateTaskStatus(id: Int!, status: TaskStatus!): Task!
+  deleteTask(id: Int!): Boolean!
+}
+
+type Subscription {
+  taskCreated: Task!
+  taskUpdated: Task!
+  taskDeleted: Int!
+}
