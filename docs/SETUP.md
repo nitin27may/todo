@@ -13,7 +13,7 @@ Before you begin, ensure you have the following installed:
 
 ### Optional (for local development)
 - **Node.js** (v18+) - [Download here](https://nodejs.org/)
-- **.NET 8.0 SDK** - [Download here](https://dotnet.microsoft.com/download)
+- **.NET 9.0 SDK** - [Download here](https://dotnet.microsoft.com/download)
 
 ## 🏗️ Installation Steps
 

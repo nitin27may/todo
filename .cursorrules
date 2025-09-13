@@ -1,10 +1,10 @@
 # Global Project Cursor Rules
 
 ## Project Overview
-This is a full-stack todo application with a .NET 8 GraphQL backend and React 18 TypeScript frontend, featuring real-time updates via SignalR.
+This is a full-stack todo application with a .NET 9 GraphQL backend and React 18 TypeScript frontend, featuring real-time updates via SignalR.
 
 ## Technology Stack
-- **Backend**: .NET 8, HotChocolate GraphQL, Entity Framework Core, SignalR, Serilog
+- **Backend**: .NET 9, HotChocolate GraphQL, Entity Framework Core, SignalR, Serilog
 - **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, SignalR client, Relay
 - **Database**: SQL Server (Production), SQLite (Development)
 - **Containerization**: Docker & Docker Compose
@@ -13,7 +13,7 @@ This is a full-stack todo application with a .NET 8 GraphQL backend and React 18
 ## Project Structure
 ```
 todo/
-├── Backend/                 # .NET 8 GraphQL API
+├── Backend/                 # .NET 9 GraphQL API
 │   ├── Data/               # Entity Framework DbContext
 │   ├── GraphQL/            # GraphQL schema (Queries, Mutations, Subscriptions, Types)
 │   ├── Hubs/               # SignalR hubs

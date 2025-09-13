@@ -1,10 +1,10 @@
 # .NET Backend Cursor Rules
 
 ## Project Overview
-This is a .NET 8 Web API project using HotChocolate GraphQL, Entity Framework Core, SignalR, and Serilog.
+This is a .NET 9 Web API project using HotChocolate GraphQL, Entity Framework Core, SignalR, and Serilog.
 
 ## Technology Stack
-- .NET 8
+- .NET 9
 - HotChocolate GraphQL
 - Entity Framework Core (SQL Server/SQLite)
 - SignalR for real-time communication

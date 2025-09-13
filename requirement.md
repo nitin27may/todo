@@ -6,7 +6,7 @@ A full-stack task management application with real-time synchronization capabili
 ## Architecture Overview
 
 ### Technology Stack
-- **Backend**: ASP.NET Core 8.0, GraphQL (HotChocolate), Entity Framework Core
+- **Backend**: ASP.NET Core 9.0, GraphQL (HotChocolate), Entity Framework Core
 - **Database**: SQL Server (with SQLite fallback for development)
 - **Frontend**: React 18, Adobe React Spectrum, Relay GraphQL Client
 - **Containerization**: Docker, Docker Compose
@@ -1159,12 +1159,12 @@ export const useRealTimeTasks = ({
 
 ### 1. Backend Dockerfile
 ```dockerfile
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 COPY ["Backend/Backend.csproj", "Backend/"]
 RUN dotnet restore "Backend/Backend.csproj"
@@ -1431,7 +1431,7 @@ VITE_SIGNALR_HUB=http://localhost:5000/taskHub
 
 #### Backend Development Prompts
 ```
-"Create an ASP.NET Core 8.0 Web API project with the following specifications:
+"Create an ASP.NET Core 9.0 Web API project with the following specifications:
 - Use HotChocolate for GraphQL with subscriptions
 - Entity Framework Core with SQL Server
 - SignalR for real-time updates

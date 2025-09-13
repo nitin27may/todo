@@ -6,7 +6,7 @@ A full-stack task management application with real-time synchronization capabili
 
 This application demonstrates a complete full-stack architecture with real-time capabilities:
 
-- **Backend**: ASP.NET Core 8.0 with GraphQL API and SignalR for real-time updates
+- **Backend**: ASP.NET Core 9.0 with GraphQL API and SignalR for real-time updates
 - **Frontend**: React 18 with TypeScript and Tailwind CSS for modern UI
 - **Database**: SQLite for development, SQL Server for production
 - **Real-time**: SignalR for live synchronization across all clients
@@ -163,7 +163,7 @@ graph LR
 ## 🛠️ Technology Stack
 
 ### Backend
-- **ASP.NET Core 8.0** - Web framework
+- **ASP.NET Core 9.0** - Web framework
 - **HotChocolate** - GraphQL server
 - **Entity Framework Core** - ORM
 - **SignalR** - Real-time communication
