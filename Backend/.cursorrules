@@ -1,0 +1,261 @@
+# .NET Backend Cursor Rules
+
+## Project Overview
+This is a .NET 8 Web API project using HotChocolate GraphQL, Entity Framework Core, SignalR, and Serilog.
+
+## Technology Stack
+- .NET 8
+- HotChocolate GraphQL
+- Entity Framework Core (SQL Server/SQLite)
+- SignalR for real-time communication
+- Serilog for logging
+- ASP.NET Core Web API
+
+## Code Style and Conventions
+
+### General C# Guidelines
+- Use PascalCase for public members, classes, methods, properties
+- Use camelCase for private fields and local variables
+- Use _camelCase for private fields
+- Use PascalCase for constants
+- Use descriptive names that clearly indicate purpose
+- Prefer explicit types over var when type is not obvious
+- Use meaningful names for all identifiers
+- Keep methods small and focused (single responsibility)
+- Use async/await for I/O operations
+- Prefer composition over inheritance
+
+### File Organization
+- One class per file
+- Use namespaces that match folder structure
+- Group related classes in the same namespace
+- Place interfaces in separate files with "I" prefix
+- Use partial classes when necessary for code generation
+
+### Naming Conventions
+- Classes: PascalCase (e.g., `TaskService`, `ApplicationDbContext`)
+- Interfaces: PascalCase with "I" prefix (e.g., `ITaskService`)
+- Methods: PascalCase (e.g., `GetTaskById`, `CreateTaskAsync`)
+- Properties: PascalCase (e.g., `TaskId`, `CreatedAt`)
+- Fields: camelCase with underscore prefix (e.g., `_logger`, `_context`)
+- Constants: PascalCase (e.g., `MaxRetryAttempts`)
+- Enums: PascalCase (e.g., `TaskStatus`)
+- Generic type parameters: PascalCase with descriptive names (e.g., `TEntity`, `TKey`)
+
+### Entity Framework Best Practices
+- Use DbContext for data access
+- Implement repository pattern when needed
+- Use async methods for database operations
+- Use Include() for eager loading when necessary
+- Use AsNoTracking() for read-only operations
+- Use transactions for multiple related operations
+- Use migrations for schema changes
+- Configure relationships properly in OnModelCreating
+
+### GraphQL Best Practices
+- Use descriptive type names and field names
+- Implement proper error handling
+- Use DataLoader for N+1 query problems
+- Implement proper authorization
+- Use input types for mutations
+- Document types and fields with descriptions
+- Use enums for status fields
+- Implement proper validation
+
+### SignalR Best Practices
+- Use strongly typed hubs
+- Implement proper error handling
+- Use groups for targeted messaging
+- Implement connection management
+- Use async methods for hub operations
+- Handle disconnections gracefully
+
+### Logging Best Practices
+- Use structured logging with Serilog
+- Log at appropriate levels (Debug, Information, Warning, Error, Fatal)
+- Include correlation IDs for request tracking
+- Log exceptions with context
+- Use log scopes for related operations
+- Don't log sensitive information
+
+### Error Handling
+- Use custom exception types
+- Implement global exception handling
+- Return appropriate HTTP status codes
+- Log errors with context
+- Don't expose internal details to clients
+- Use ProblemDetails for API errors
+
+### Security Best Practices
+- Validate all inputs
+- Use parameterized queries
+- Implement proper authentication/authorization
+- Use HTTPS in production
+- Sanitize user inputs
+- Implement rate limiting
+- Use secure headers
+
+### Performance Best Practices
+- Use async/await for I/O operations
+- Implement caching where appropriate
+- Use connection pooling
+- Optimize database queries
+- Use compression for responses
+- Implement proper pagination
+- Use background services for long-running tasks
+
+### Testing Guidelines
+- Write unit tests for business logic
+- Use integration tests for API endpoints
+- Mock external dependencies
+- Test error scenarios
+- Use test data builders
+- Maintain high test coverage
+
+### Configuration Management
+- Use appsettings.json for configuration
+- Use environment-specific settings
+- Validate configuration on startup
+- Use strongly typed configuration
+- Keep secrets in secure storage
+- Use configuration binding
+
+### Dependency Injection
+- Register services in Program.cs
+- Use appropriate lifetimes (Singleton, Scoped, Transient)
+- Prefer constructor injection
+- Use factory patterns when needed
+- Avoid service locator pattern
+
+## Code Examples
+
+### Service Implementation
+```csharp
+public class TaskService : ITaskService
+{
+    private readonly ApplicationDbContext _context;
+    private readonly ILogger<TaskService> _logger;
+
+    public TaskService(ApplicationDbContext context, ILogger<TaskService> logger)
+    {
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    public async Task<Task> CreateTaskAsync(CreateTaskInput input, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var task = new Task
+            {
+                Title = input.Title,
+                Description = input.Description,
+                Status = TaskStatus.Pending,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            _context.Tasks.Add(task);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Task created with ID {TaskId}", task.Id);
+            return task;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating task with title {Title}", input.Title);
+            throw;
+        }
+    }
+}
+```
+
+### GraphQL Type Definition
+```csharp
+public class TaskType : ObjectType<Task>
+{
+    protected override void Configure(IObjectTypeDescriptor<Task> descriptor)
+    {
+        descriptor
+            .Description("Represents a task in the system")
+            .Field(t => t.Id)
+            .Description("The unique identifier of the task")
+            .Type<NonNullType<IntType>>();
+
+        descriptor
+            .Field(t => t.Title)
+            .Description("The title of the task")
+            .Type<NonNullType<StringType>>();
+
+        descriptor
+            .Field(t => t.Status)
+            .Description("The current status of the task")
+            .Type<NonNullType<TaskStatusType>>();
+    }
+}
+```
+
+### SignalR Hub
+```csharp
+public class TaskHub : Hub
+{
+    private readonly ITaskNotificationService _notificationService;
+    private readonly ILogger<TaskHub> _logger;
+
+    public TaskHub(ITaskNotificationService notificationService, ILogger<TaskHub> logger)
+    {
+        _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    public override async Task OnConnectedAsync()
+    {
+        _logger.LogInformation("Client {ConnectionId} connected", Context.ConnectionId);
+        await base.OnConnectedAsync();
+    }
+
+    public override async Task OnDisconnectedAsync(Exception? exception)
+    {
+        _logger.LogInformation("Client {ConnectionId} disconnected", Context.ConnectionId);
+        await base.OnDisconnectedAsync(exception);
+    }
+}
+```
+
+## File Structure Guidelines
+```
+Backend/
+├── Controllers/          # API Controllers (if using REST)
+├── Data/                # DbContext and data access
+├── GraphQL/             # GraphQL schema definitions
+│   ├── Mutations/       # GraphQL mutations
+│   ├── Queries/         # GraphQL queries
+│   ├── Subscriptions/   # GraphQL subscriptions
+│   └── Types/           # GraphQL types
+├── Hubs/                # SignalR hubs
+├── Models/              # Domain models/entities
+├── Services/            # Business logic services
+├── Middleware/          # Custom middleware
+├── Extensions/          # Extension methods
+├── Configuration/       # Configuration classes
+└── Program.cs           # Application entry point
+```
+
+## Common Patterns to Follow
+- Repository pattern for data access
+- Service layer for business logic
+- DTO pattern for data transfer
+- Factory pattern for object creation
+- Strategy pattern for algorithms
+- Observer pattern for events
+- Command pattern for operations
+
+## Anti-Patterns to Avoid
+- God classes with too many responsibilities
+- Anemic domain models
+- Tight coupling between layers
+- Synchronous I/O operations
+- Catching and swallowing exceptions
+- Using string literals instead of constants
+- Hardcoding configuration values
+- Not disposing of resources properly

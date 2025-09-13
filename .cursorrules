@@ -1,0 +1,241 @@
+# Global Project Cursor Rules
+
+## Project Overview
+This is a full-stack todo application with a .NET 8 GraphQL backend and React 18 TypeScript frontend, featuring real-time updates via SignalR.
+
+## Technology Stack
+- **Backend**: .NET 8, HotChocolate GraphQL, Entity Framework Core, SignalR, Serilog
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, SignalR client, Relay
+- **Database**: SQL Server (Production), SQLite (Development)
+- **Containerization**: Docker & Docker Compose
+- **Real-time**: SignalR for live updates
+
+## Project Structure
+```
+todo/
+├── Backend/                 # .NET 8 GraphQL API
+│   ├── Data/               # Entity Framework DbContext
+│   ├── GraphQL/            # GraphQL schema (Queries, Mutations, Subscriptions, Types)
+│   ├── Hubs/               # SignalR hubs
+│   ├── Models/             # Domain models/entities
+│   ├── Services/           # Business logic services
+│   └── Program.cs          # Application entry point
+├── Frontend/               # React 18 TypeScript SPA
+│   ├── src/
+│   │   ├── components/     # React components
+│   │   ├── hooks/          # Custom React hooks
+│   │   ├── types/          # TypeScript definitions
+│   │   ├── utils/          # Utility functions
+│   │   └── graphql/        # GraphQL operations
+│   └── public/             # Static assets
+├── docs/                   # Documentation
+└── docker-compose.yml      # Container orchestration
+```
+
+## General Development Guidelines
+
+### Code Quality Standards
+- Write clean, readable, and maintainable code
+- Follow SOLID principles
+- Implement proper error handling
+- Use meaningful variable and function names
+- Keep functions and methods small and focused
+- Write self-documenting code with clear intent
+- Comment complex business logic
+- Avoid code duplication (DRY principle)
+
+### Git Workflow
+- Use descriptive commit messages
+- Follow conventional commit format: `type(scope): description`
+- Create feature branches for new development
+- Use pull requests for code review
+- Keep commits atomic and focused
+- Write meaningful commit descriptions
+
+### Testing Strategy
+- Write unit tests for business logic
+- Write integration tests for API endpoints
+- Write component tests for React components
+- Maintain high test coverage (>80%)
+- Test error scenarios and edge cases
+- Use mocking for external dependencies
+
+### Documentation Standards
+- Keep README files up to date
+- Document API endpoints and schemas
+- Document complex business logic
+- Use JSDoc for TypeScript functions
+- Use XML documentation for C# methods
+- Maintain architecture decision records (ADRs)
+
+### Security Best Practices
+- Validate all inputs on both client and server
+- Use parameterized queries to prevent SQL injection
+- Implement proper authentication and authorization
+- Use HTTPS in production
+- Sanitize user inputs
+- Implement rate limiting
+- Keep dependencies updated
+- Use secure headers
+
+### Performance Guidelines
+- Optimize database queries
+- Use caching where appropriate
+- Implement proper pagination
+- Use async/await for I/O operations
+- Optimize bundle size
+- Use lazy loading for routes
+- Implement proper error boundaries
+- Monitor performance metrics
+
+### Error Handling Strategy
+- Use appropriate HTTP status codes
+- Implement global error handling
+- Log errors with proper context
+- Show user-friendly error messages
+- Implement retry mechanisms for transient failures
+- Use error boundaries in React
+- Handle network errors gracefully
+
+### Real-time Communication
+- Use SignalR for real-time updates
+- Implement proper connection management
+- Handle reconnection scenarios
+- Use typed event handlers
+- Implement proper error handling for real-time features
+- Clean up connections on component unmount
+
+### Database Guidelines
+- Use Entity Framework migrations
+- Implement proper indexing
+- Use transactions for related operations
+- Implement soft deletes when appropriate
+- Use proper foreign key relationships
+- Optimize queries to avoid N+1 problems
+
+### API Design Principles
+- Use GraphQL for flexible data fetching
+- Implement proper input validation
+- Use descriptive field names
+- Implement proper error responses
+- Use enums for status fields
+- Document all types and fields
+- Implement proper pagination
+
+### Frontend Architecture
+- Use component composition
+- Implement proper state management
+- Use custom hooks for reusable logic
+- Implement proper loading states
+- Use TypeScript for type safety
+- Follow mobile-first responsive design
+- Implement proper accessibility
+
+### Development Environment
+- Use Docker for consistent environments
+- Use environment-specific configurations
+- Implement proper logging
+- Use hot reloading for development
+- Implement proper debugging tools
+- Use linting and formatting tools
+
+## Common Patterns
+
+### Backend Patterns
+- Repository pattern for data access
+- Service layer for business logic
+- DTO pattern for data transfer
+- Factory pattern for object creation
+- Observer pattern for events
+- Command pattern for operations
+
+### Frontend Patterns
+- Custom hooks for reusable logic
+- Compound components for complex UI
+- Render props for flexible components
+- Context for shared state
+- Provider pattern for services
+- Higher-order components for cross-cutting concerns
+
+## Code Review Checklist
+
+### Backend Review
+- [ ] Proper error handling implemented
+- [ ] Input validation added
+- [ ] Logging implemented
+- [ ] Async/await used correctly
+- [ ] Database queries optimized
+- [ ] Security considerations addressed
+- [ ] Unit tests written
+- [ ] Documentation updated
+
+### Frontend Review
+- [ ] TypeScript types properly defined
+- [ ] Components are reusable and focused
+- [ ] Proper error handling implemented
+- [ ] Loading states handled
+- [ ] Performance optimizations applied
+- [ ] Accessibility considerations
+- [ ] Tests written
+- [ ] Responsive design implemented
+
+## Deployment Guidelines
+- Use Docker for containerization
+- Implement proper health checks
+- Use environment-specific configurations
+- Implement proper logging
+- Use reverse proxy for production
+- Implement proper monitoring
+- Use CI/CD pipelines
+- Implement proper backup strategies
+
+## Monitoring and Observability
+- Implement structured logging
+- Use correlation IDs for request tracking
+- Monitor performance metrics
+- Implement health checks
+- Use proper error tracking
+- Monitor real-time connections
+- Implement proper alerting
+
+## Security Checklist
+- [ ] Input validation on all endpoints
+- [ ] SQL injection prevention
+- [ ] XSS protection implemented
+- [ ] CSRF protection implemented
+- [ ] Proper authentication/authorization
+- [ ] HTTPS enforced in production
+- [ ] Secure headers configured
+- [ ] Dependencies updated regularly
+- [ ] Secrets properly managed
+- [ ] Rate limiting implemented
+
+## Performance Checklist
+- [ ] Database queries optimized
+- [ ] Caching implemented where appropriate
+- [ ] Bundle size optimized
+- [ ] Lazy loading implemented
+- [ ] Images optimized
+- [ ] CDN used for static assets
+- [ ] Compression enabled
+- [ ] Monitoring implemented
+
+## Accessibility Checklist
+- [ ] Semantic HTML used
+- [ ] ARIA labels implemented
+- [ ] Keyboard navigation supported
+- [ ] Color contrast meets standards
+- [ ] Screen reader compatibility
+- [ ] Focus management implemented
+- [ ] Alternative text for images
+- [ ] Form labels properly associated
+
+## Maintenance Guidelines
+- Keep dependencies updated
+- Monitor security advisories
+- Regular code reviews
+- Performance monitoring
+- User feedback collection
+- Documentation updates
+- Test coverage monitoring
+- Refactoring when needed

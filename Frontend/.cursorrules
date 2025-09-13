@@ -1,0 +1,215 @@
+# React Frontend Cursor Rules
+
+## Project Overview
+This is a React 18 TypeScript project using Vite, Tailwind CSS, SignalR, and GraphQL with Relay.
+
+## Technology Stack
+- React 18 with TypeScript
+- Vite for build tooling
+- Tailwind CSS for styling
+- SignalR for real-time communication
+- GraphQL with Relay
+- ESLint for linting
+- PostCSS for CSS processing
+
+## Code Style and Conventions
+
+### General TypeScript Guidelines
+- Use strict TypeScript configuration
+- Prefer explicit types over `any`
+- Use interfaces for object shapes
+- Use type aliases for unions and primitives
+- Use enums for constants
+- Use const assertions for immutable data
+- Prefer readonly properties when possible
+- Use generic types for reusable components
+- Use utility types (Partial, Pick, Omit, etc.)
+
+### React Best Practices
+- Use functional components with hooks
+- Prefer composition over inheritance
+- Keep components small and focused
+- Use custom hooks for reusable logic
+- Use React.memo for performance optimization
+- Use useCallback and useMemo appropriately
+- Avoid prop drilling - use context or state management
+- Use proper key props for lists
+- Handle loading and error states
+- Use proper cleanup in useEffect
+
+### File Organization
+- One component per file
+- Use PascalCase for component files
+- Use camelCase for utility files
+- Group related files in folders
+- Use index files for clean imports
+- Separate types, hooks, and utilities
+
+### Naming Conventions
+- Components: PascalCase (e.g., `TaskList`, `TaskCard`)
+- Hooks: camelCase starting with "use" (e.g., `useTaskData`, `useSignalR`)
+- Functions: camelCase (e.g., `fetchTasks`, `handleSubmit`)
+- Variables: camelCase (e.g., `taskList`, `isLoading`)
+- Constants: UPPER_SNAKE_CASE (e.g., `API_ENDPOINTS`, `TASK_STATUS`)
+- Types/Interfaces: PascalCase (e.g., `Task`, `TaskStatus`)
+- Props: camelCase (e.g., `taskId`, `onTaskUpdate`)
+
+### Component Structure
+```typescript
+// 1. Imports (external libraries first, then internal)
+import React, { useState, useEffect, useCallback } from 'react';
+import { Task, TaskStatus } from '../types/Task';
+import { useTaskData } from '../hooks/useTaskData';
+
+// 2. Type definitions
+interface TaskListProps {
+  tasks: Task[];
+  onTaskUpdate: (task: Task) => void;
+  onTaskDelete: (id: number) => void;
+}
+
+// 3. Component definition
+export const TaskList: React.FC<TaskListProps> = ({ 
+  tasks, 
+  onTaskUpdate, 
+  onTaskDelete 
+}) => {
+  // 4. State and hooks
+  const [filter, setFilter] = useState<TaskStatus | 'ALL'>('ALL');
+  
+  // 5. Event handlers
+  const handleTaskToggle = useCallback((task: Task) => {
+    const newStatus = task.status === TaskStatus.PENDING 
+      ? TaskStatus.COMPLETED 
+      : TaskStatus.PENDING;
+    onTaskUpdate({ ...task, status: newStatus });
+  }, [onTaskUpdate]);
+
+  // 6. Effects
+  useEffect(() => {
+    // Effect logic
+  }, []);
+
+  // 7. Render
+  return (
+    <div className="task-list">
+      {/* JSX content */}
+    </div>
+  );
+};
+```
+
+### State Management
+- Use useState for local component state
+- Use useReducer for complex state logic
+- Use useContext for shared state
+- Use custom hooks for reusable state logic
+- Keep state as close to where it's used as possible
+- Use proper state updates (functional updates when needed)
+
+### Event Handling
+- Use useCallback for event handlers passed as props
+- Use proper event types (React.ChangeEvent, React.MouseEvent, etc.)
+- Prevent default behavior when necessary
+- Use proper form handling
+- Implement proper validation
+
+### Performance Optimization
+- Use React.memo for expensive components
+- Use useCallback for functions passed as props
+- Use useMemo for expensive calculations
+- Use lazy loading for routes
+- Optimize re-renders
+- Use proper dependency arrays in useEffect
+
+### Styling Guidelines
+- Use Tailwind CSS utility classes
+- Create custom CSS classes for complex styles
+- Use CSS modules for component-specific styles
+- Follow mobile-first responsive design
+- Use consistent spacing and typography
+- Implement proper focus states
+- Use semantic color names
+
+### GraphQL Best Practices
+- Use Relay for GraphQL operations
+- Implement proper error handling
+- Use fragments for reusable fields
+- Implement proper loading states
+- Use optimistic updates when appropriate
+- Handle network errors gracefully
+
+### SignalR Best Practices
+- Use proper connection management
+- Handle reconnection scenarios
+- Implement proper error handling
+- Use typed event handlers
+- Clean up connections on unmount
+- Handle connection state changes
+
+### Error Handling
+- Use error boundaries for component errors
+- Implement proper error states
+- Show user-friendly error messages
+- Log errors for debugging
+- Handle network errors gracefully
+- Implement retry mechanisms
+
+### Testing Guidelines
+- Write unit tests for components
+- Test user interactions
+- Mock external dependencies
+- Test error scenarios
+- Use React Testing Library
+- Maintain high test coverage
+
+
+## File Structure Guidelines
+```
+Frontend/
+├── src/
+│   ├── components/      # Reusable UI components
+│   │   ├── common/      # Common components (Button, Input, etc.)
+│   │   ├── forms/       # Form components
+│   │   └── task/        # Task-specific components
+│   ├── hooks/           # Custom React hooks
+│   ├── types/           # TypeScript type definitions
+│   ├── utils/           # Utility functions
+│   ├── graphql/         # GraphQL queries and mutations
+│   ├── services/        # API services
+│   ├── contexts/        # React contexts
+│   ├── styles/          # Global styles and CSS
+│   └── App.tsx          # Main App component
+├── public/              # Static assets
+└── dist/                # Build output
+```
+
+## Common Patterns to Follow
+- Custom hooks for reusable logic
+- Compound components for complex UI
+- Render props for flexible components
+- Higher-order components for cross-cutting concerns
+- Context for shared state
+- Provider pattern for services
+
+## Anti-Patterns to Avoid
+- Mutating state directly
+- Using array index as key
+- Not cleaning up effects
+- Overusing useEffect
+- Prop drilling
+- Inline object/function creation in render
+- Not handling loading/error states
+- Using any type unnecessarily
+- Not using proper TypeScript types
+- Not handling edge cases
+
+## Performance Tips
+- Use React.memo for expensive components
+- Use useCallback for event handlers
+- Use useMemo for expensive calculations
+- Implement proper list virtualization for large lists
+- Use lazy loading for routes
+- Optimize bundle size with code splitting
+- Use proper dependency arrays in useEffect
+- Avoid unnecessary re-renders
